@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>-->
+        <script src="js/zxing.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="js/Warehouse.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/vueOptions.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-default" style="background-color: #0A4652 !important; background-image: none; border-radius: 0; border: 0">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        WAREHOUSE
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="container" id="vueApp" style="padding-top: 15px;">
+            <div class="row" style="padding-bottom: 15px">
+                <div class="col-lg-3">
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-lg-6"></div>
+                <div class="col-lg-3" style="text-align: right;">
+                    <button type="button" class="btn btn-success" v-on:click="showModal()">Pridat produkt</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table">
+                        <thead style="background-color: #ECA72C">
+                            <tr>
+                                <th>#</th>
+                                <th>Nazov</th>
+                                <th>Vyrobca</th>
+                                <th>Hmotnost</th>
+                                <th>Pocet</th>
+                                <th>Zaruka</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(product, index) in products">
+                                <td>{{index}}</td>
+                                <td>{{product.name}}</td>
+                                <td>{{product.producer}}</td>
+                                <td>{{product.weight}}</td>
+                                <td>{{product.count}}</td>
+                                <td>{{product.durability}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+            <div class="modal" tabindex="-1" role="dialog" id="modal-scanner">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #0A4652;">
+                            <h2 class="modal-title" style="color: white;">Pridať produkt</h2>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>Nazov produktu</label>
+                                    <input type="text" v-model="newProduct.name" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Vyrobca</label>
+                                    <select class="form-control" v-model="newProduct.producer">
+                                        <option>Vyber vyrobcu</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Hmotnost</label>
+                                            <input type="number" v-model="newProduct.weight" class="form-control"> 
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>Jednotka</label>
+                                            <select v-model="newProduct.quantity" class="form-control">
+                                                <option value="0">Vyber jednotku</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Pocet kusov</label>
+                                    <input type="number" class="form-control" v-model="newProduct.count">
+                                </div>
+                                <div class="form-group">
+                                    <label>Trvanlivost</label>
+                                    <input type="date" class="form-control" v-model="newProduct.durability">
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <video id="video" width="400" height="200"></video>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>EAN</label>
+                                    <input type="number" class="form-control" v-model="newProduct.barcode" id="index-barcode">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" v-on:click="createProduct()">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
