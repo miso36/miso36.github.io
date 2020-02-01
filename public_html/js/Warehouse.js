@@ -29,7 +29,8 @@ var Warehouse = new function ()
         this.startReading = function ()
         {
                 this.Reader.decodeOnceFromVideoDevice(device, 'video').then((result) => {
-                        $('#index-barcode').val(result);
+                        console.log(result);
+                        $('#index-barcode').val(result.text);
                 });
         };
         
