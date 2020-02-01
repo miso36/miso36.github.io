@@ -33,7 +33,7 @@ window.onload = function ()
         Warehouse.Socket = io.connect('http://89.221.218.203:3000', { rejectUnauthorized: false });
         Warehouse.Vue = new Vue(vueOptions);
         Warehouse.Reader = new ZXing.BrowserBarcodeReader();
-        
+        Warehouse.initReader();
         
         $('#modal-scanner').on('hidden.bs.modal', function () {
             Warehouse.resetReader();

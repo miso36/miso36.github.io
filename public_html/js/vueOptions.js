@@ -35,7 +35,6 @@ var vueOptions = {
         
         showModal () {
             $('#modal-scanner').modal('show');
-            Warehouse.initReader();
             Warehouse.setReaderDevice(0);
             Warehouse.startReading();
             /*Quagga.init(

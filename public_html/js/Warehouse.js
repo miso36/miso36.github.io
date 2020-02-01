@@ -11,6 +11,7 @@ var Warehouse = new function ()
         function getCameraDevices ()
         {
                 self.Reader.getVideoInputDevices().then(devices => {
+                    console.log(devices);
                     devicesArr = devices;
                 });
                 
@@ -28,10 +29,16 @@ var Warehouse = new function ()
         
         this.startReading = function ()
         {
-                this.Reader.decodeOnceFromVideoDevice(device, 'video').then((result) => {
+                
+                this.Reader.decodeOnceFromVideoDevice(device.id, 'video').then((result) => {
                         console.log(result);
                         $('#index-barcode').val(result.text);
+                }).catch((err) => {
+                        console.log(err);
+                        $('#index-barcode').val('error');
                 });
+                
+                console.log(`Started continous decode from camera with id ${device}`);
         };
         
         this.resetReader = function ()
